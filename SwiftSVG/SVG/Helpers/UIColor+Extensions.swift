@@ -43,7 +43,9 @@ struct NamedColors {
     private let colorDictionary = [
         "aliceblue": UIColor(red: 240.0 / 255.0, green: 248.0 / 255.0, blue: 255.0 / 255.0, alpha: 1.0).cgColor,
         "cyan": UIColor(red: 0.0, green: 1.0, blue: 1.0, alpha: 1.0).cgColor,
-        "none": UIColor.clear.cgColor
+        "black": UIColor.black.cgColor,
+        "white": UIColor.white.cgColor,
+        "none": UIColor.clear.cgColor,
     ]
     
     /// Subscript to access the named color. Must be one of the officially supported values listed [here](https://www.w3.org/TR/SVGColor12/#icccolor)
