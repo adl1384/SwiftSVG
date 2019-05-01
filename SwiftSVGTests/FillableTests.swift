@@ -29,7 +29,44 @@
 import XCTest
 
 class FillableTests: XCTestCase {
-    
+
+  func testFillBlack() {
+    let testShapeElement = TestShapeElement()
+    testShapeElement.fill(fillColor: "black")
+    testShapeElement.fillOpacity(opacity: "0.8")
+
+    guard let color = testShapeElement.svgLayer.fillColor, let fillComponents = color.components else {
+      XCTFail("Fill opacity should set the fill color")
+      return
+    }
+    XCTAssert(fillComponents[0] == 0)
+    XCTAssert(color.alpha == 0.8)
+  }
+
+  func testFillWhite() {
+    let testShapeElement = TestShapeElement()
+    testShapeElement.fill(fillColor: "white")
+    testShapeElement.fillOpacity(opacity: "0.8")
+
+    guard let color = testShapeElement.svgLayer.fillColor, let fillComponents = color.components else {
+      XCTFail("Fill opacity should set the fill color")
+      return
+    }
+    XCTAssert(fillComponents[0] == 1)
+    XCTAssert(color.alpha == 0.8)
+  }
+
+  func testFillNone() {
+    let testShapeElement = TestShapeElement()
+    testShapeElement.fill(fillColor: "none")
+
+    guard let color = testShapeElement.svgLayer.fillColor else {
+      XCTFail("Fill opacity should set the fill color")
+      return
+    }
+    XCTAssert(color.alpha == 0)
+  }
+
     func testFillOpacity() {
         let testShapeElement = TestShapeElement()
         testShapeElement.fill(fillColor: "#00FF33")

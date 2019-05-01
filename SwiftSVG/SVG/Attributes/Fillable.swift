@@ -66,13 +66,19 @@ extension Fillable where Self : SVGShapeElement {
      - SeeAlso: CAShapeLayer's [`fillColor`](https://developer.apple.com/documentation/quartzcore/cashapelayer/1522248-fillcolor)
      */
     func fill(fillColor: String) {
-        guard let colorComponents = self.svgLayer.fillColor?.components else {
+        guard let existingFillColor = self.svgLayer.fillColor else {
             return
         }
         guard let fillColor = UIColor(svgString: fillColor) else {
             return
         }
-        self.svgLayer.fillColor = fillColor.withAlphaComponent(colorComponents[3]).cgColor
+        if (fillColor.cgColor.alpha < 1.0) {
+          // if the new fill has some custom alpha, keep it
+          self.svgLayer.fillColor = fillColor.cgColor
+        } else {
+          // override alpha from existing fill
+          self.svgLayer.fillColor = fillColor.withAlphaComponent(existingFillColor.alpha).cgColor
+        }
     }
     
     /**
@@ -93,10 +99,10 @@ extension Fillable where Self : SVGShapeElement {
         guard let opacity = CGFloat(opacity) else {
             return
         }
-        guard let colorComponents = self.svgLayer.fillColor?.components else {
+        guard let cgColor = self.svgLayer.fillColor else {
             return
         }
-        self.svgLayer.fillColor = UIColor(red: colorComponents[0], green: colorComponents[1], blue: colorComponents[2], alpha: opacity).cgColor
+        self.svgLayer.fillColor = cgColor.copy(alpha: opacity)
     }
     
 }
